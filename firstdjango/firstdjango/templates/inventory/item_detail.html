@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<a href="{% url 'index' %}">Back to reading list</a>
+	<h3>{{ item.title|capfirst }}</h3>
+	<p> {{ item.startPage }} Start Page</p>
+	<p> {{ item.endPage }} End Page</p>
+	<h4> course </h4>
+	<p> {{ item.course }}</p>
+	<h5> Due Date</h5>
+	<p>{{ item.dueDate }}
+{% endblock %}
