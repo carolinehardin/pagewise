@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<a href="{% url 'index' %}">Back</a>
+	<h3>{{ studySession.title|capfirst }}</h3>
+	<p> {{ studySession.pagesRead }} Pages Read</p>
+	<p> {{ studySession.timeSpent }} Time Spent</p>
+{% endblock %}
