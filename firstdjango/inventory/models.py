@@ -14,4 +14,4 @@ class StudySessions(models.Model):
 	timeSpent = models.IntegerField()	
 	
 class Course(models.Model):
-	course = models.CharField(max_length=200)
+	title = models.CharField(max_length=200)

@@ -11,7 +11,7 @@ class StudySessionsAdmin(admin.ModelAdmin):
 	list_display = ['date', 'timeSpent']
 	
 class CourseAdmin(admin.ModelAdmin):
-	list_display = ['course']
+	list_display = ['title']
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(StudySessions, StudySessionsAdmin)

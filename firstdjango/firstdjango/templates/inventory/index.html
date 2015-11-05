@@ -28,7 +28,7 @@
 		{% for course in course %}
 			<li>
 				<a href="{% url 'course_detail' course.id %}">
-					{{ course.course|capfirst }}
+					{{ course.title|capfirst }}
 				</a>
 			</li>
 		{% endfor %}	
