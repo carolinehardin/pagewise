@@ -21,5 +21,16 @@
 				</a>
 			</li>
 		{% endfor %}	
-	</ul>				
+	</ul>
+	
+	<h3>Course</h3>
+	<ul>
+		{% for course in course %}
+			<li>
+				<a href="{% url 'course_detail' course.id %}">
+					{{ course.course|capfirst }}
+				</a>
+			</li>
+		{% endfor %}	
+	</ul>								
 {% endblock %}
