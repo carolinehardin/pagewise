@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<a href="{% url 'index' %}">Back</a>
+	<h3>{{ course.title|capfirst }} </h3>
+{% endblock %}

@@ -12,3 +12,6 @@ class StudySessions(models.Model):
 	startPage = models.IntegerField()
 	pagesRead = models.IntegerField()
 	timeSpent = models.IntegerField()	
+	
+class Course(models.Model):
+	title = models.CharField(max_length=200)
