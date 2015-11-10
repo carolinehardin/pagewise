@@ -6,3 +6,12 @@ class Item(models.Model):
 	endPage = models.IntegerField()
 	course = models.CharField(max_length=200)
 	dueDate = models.DateField()
+	
+class StudySessions(models.Model):
+	date = models.DateField()
+	startPage = models.IntegerField()
+	pagesRead = models.IntegerField()
+	timeSpent = models.IntegerField()	
+	
+class Course(models.Model):
+	title = models.CharField(max_length=200)

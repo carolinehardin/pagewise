@@ -10,5 +10,27 @@
 				</a>
 			</li>
 		{% endfor %}	
-	</ul>		
+	</ul>
+	
+	<h3>Study Sessions</h3>
+	<ul>
+		{% for studySession in studySessions %}
+			<li>
+				<a href="{% url 'studySession_detail' studySession.id %}">
+					{{ studySession.date }}
+				</a>
+			</li>
+		{% endfor %}	
+	</ul>
+	
+	<h3>Course</h3>
+	<ul>
+		{% for course in course %}
+			<li>
+				<a href="{% url 'course_detail' course.id %}">
+					{{ course.title|capfirst }}
+				</a>
+			</li>
+		{% endfor %}	
+	</ul>								
 {% endblock %}
