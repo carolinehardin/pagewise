@@ -18,9 +18,12 @@
 			<li>
 				<a href="{% url 'studySession_detail' studySession.id %}">
 					{{ studySession.date }}
+					{{ totalPgRead|add:studySession.pagesRead }}
+					{{ totalMinSpent|add:studySession.timeSpent }}
 				</a>
 			</li>
-		{% endfor %}	
+		{% endfor %}
+			
 	</ul>
 	
 	<h3>Course</h3>

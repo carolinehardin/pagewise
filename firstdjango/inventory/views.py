@@ -9,10 +9,18 @@ def index(request):
 	items = Item.objects.all()
 	studySessions = StudySessions.objects.all()
 	course = Course.objects.all()
+	totalMinSpent = 0
+	totalPgRead = 0
+	for studySession in studySessions
+		studySession.date
+		totalPgRead|add:studySession.pagesRead
+		totalMinSpent|add:studySession.timeSpent				
+	readingSpeed = totalMinSpent|add:totalPgRead
 	return render(request, 'inventory/index.html', {
 		'items': items,
 		'studySessions': studySessions,
-		'course': course
+		'course': course,
+		'readingSpeed': readingSpeed,
 	})
 
 def item_detail(request, id):
