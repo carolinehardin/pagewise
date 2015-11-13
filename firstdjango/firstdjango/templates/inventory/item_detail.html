@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% load mathfilters %}
 
 {% block content %}
 	<a href="{% url 'index' %}">Back to reading list</a>
 	<h3>{{ item.title|capfirst }}</h3>
-	<p> {{ item.startPage }} Start Page</p>
-	<p> {{ item.endPage }} End Page</p>
-	<h4> course </h4>
+	<p> Start Page: {{ item.startPage }} </p>
+	<p> End Page: {{ item.endPage }}</p>
+	<p> Total Pages: {{item.endPage|sub:item.startPage}}</p>
+	<h4> Course </h4>
 	<p> {{ item.course }}</p>
 	<h5> Due Date</h5>
 	<p>{{ item.dueDate }}
