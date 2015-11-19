@@ -47,7 +47,7 @@ def course_detail(request, id):
 def add_reading(request):
 	# A HTTP POST?
     if request.method == 'POST':
-        form = newReadingsForm(request.POST)
+        form = newReadingForm(request.POST)
 
         # Have we been provided with a valid form?
         if form.is_valid():
@@ -57,12 +57,13 @@ def add_reading(request):
             # Now call the index() view.
             # The user will be shown the homepage.
             return index(request)
+            print "Is valid"
         else:
             # The supplied form contained errors - just print them to the terminal.
             print form.errors
     else:
         # If the request was not a POST, display the form to enter details.
-        form = newReadingsForm()
+        form = newReadingForm()
 
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
