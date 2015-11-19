@@ -25,7 +25,10 @@
 					{{ studySession.date }}
 				</a>
 			</li>
-		{% endfor %}	
+		{% endfor %}
+	
+	<h4> Overall Reading Speed (pages/hour) </h4>
+		{{ readingSpeed }}		
 	</ul>
 	  <form id="session_form" method="get" action="/add_session/">
 	<input type="submit" name="submit" value="Record Study Session" />
