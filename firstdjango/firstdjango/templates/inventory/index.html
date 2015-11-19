@@ -11,22 +11,10 @@
 			</li>
 		{% endfor %}	
 	</ul>
-	 <h3>Add a Reading</h3>
+	
 
-        <form id="reading_form" method="post" action="/add_reading/">
-
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
-
-            <input type="submit" name="submit" value="Create Reading" />
+        <form id="reading_form" method="get" action="/add_reading/">
+		<input type="submit" name="submit" value="Create Reading" />
           </form>
             
 	<h3>Study Sessions</h3>
@@ -39,6 +27,9 @@
 			</li>
 		{% endfor %}	
 	</ul>
+	  <form id="session_form" method="get" action="/add_session/">
+	<input type="submit" name="submit" value="Record Study Session" />
+          </form>
 	
 	<h3>Course</h3>
 	<ul>
@@ -51,5 +42,5 @@
 		{% endfor %}	
 	</ul>		
 	
-	<a href="add_reading/">Add a new reading!</a>						
+				
 {% endblock %}

@@ -6,6 +6,7 @@ from inventory.models import StudySessions
 from inventory.models import Course
 
 from inventory.forms import newReadingForm
+from inventory.forms import newSessionForm
 
 def index(request):
 	items = Item.objects.all()
@@ -57,7 +58,7 @@ def add_reading(request):
             # Now call the index() view.
             # The user will be shown the homepage.
             return index(request)
-            print "Is valid"
+           
         else:
             # The supplied form contained errors - just print them to the terminal.
             print form.errors
@@ -68,3 +69,28 @@ def add_reading(request):
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
     return render(request, 'inventory/add_reading.html', {'form': form})
+
+def add_session(request):
+	# A HTTP POST?
+    if request.method == 'POST':
+        form = newSessionForm(request.POST)
+
+        # Have we been provided with a valid form?
+        if form.is_valid():
+            # Save the new category to the database.
+            form.save(commit=True)
+
+            # Now call the index() view.
+            # The user will be shown the homepage.
+            return index(request)
+          
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        form = newSessionForm()
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return render(request, 'inventory/add_session.html', {'form': form})
