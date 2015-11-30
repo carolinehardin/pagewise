@@ -15,7 +15,7 @@ def index(request):
 	totalMinSpent = 0
 	totalPgRead = 0
 	for oneSession in studySessions:
-		totalPgRead = totalPgRead+oneSession.pagesRead
+		totalPgRead = totalPgRead+oneSession.endPage-oneSession.startPage
 		totalMinSpent = totalMinSpent+oneSession.timeSpent					
 	readingSpeed = round(float(totalPgRead)/float(totalMinSpent), 2)
 	return render(request, 'inventory/index.html', {
