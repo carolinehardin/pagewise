@@ -10,7 +10,7 @@ class Item(models.Model):
 class StudySessions(models.Model):
 	date = models.DateField()
 	startPage = models.IntegerField()
-	pagesRead = models.IntegerField()
+	endPage = models.IntegerField()
 	timeSpent = models.IntegerField()	
 	
 class Course(models.Model):
