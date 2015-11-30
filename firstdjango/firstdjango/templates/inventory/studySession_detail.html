@@ -4,7 +4,8 @@
 {% block content %}
 	<a href="{% url 'index' %}">Back</a>
 	<h3>{{ studySession.title|capfirst }}</h3>
-	<p> {{ studySession.pagesRead }} Pages Read</p>
+	<p> {{ studySession.startPage }} Start Page</p>
+	<p> {{ studySession.endPage }} End Page</p>
 	<p> {{ studySession.timeSpent }} Minutes Spent on task</p>
-	<p> {{ studySession.pagesRead|div:studySession.timeSpent|mul:60 }} Pages/Hour</p>
+	<p> {{ studySession.endPage|sub:studySession.startPage|div:studySession.timeSpent|mul:60 }} Pages/Hour</p>
 {% endblock %}
