@@ -15,14 +15,14 @@ class newReadingForm(forms.ModelForm):
 	
 
 class newSessionForm(forms.ModelForm): 
-	date = forms.DateField(label="Date Completed",help_text="date you did the study session", required=True)
+	date = forms.DateField(label="Date Completed",help_text="Date you did the study session", required=True)
 	startPage = forms.IntegerField(label='Start Page', help_text="Start Page", required=True)
-	pagesRead = forms.IntegerField(label='pagesRead', help_text="How many pages did you read?", required=True)
-	timeSpent = forms.IntegerField(label='minutes spent reading', help_text="How many minutes did you spend reading?",required=True)
+	endPage = forms.IntegerField(label='End Page', help_text="What was the last page you read", required=True)
+	timeSpent = forms.IntegerField(label='Minutes spent reading', help_text="How many minutes did you spend reading?", required=True)
 	
 	class Meta:
 		model = StudySessions
-		fields = ('date','startPage', 'pagesRead', 'timeSpent')
+		fields = ('date','startPage', 'endPage', 'timeSpent')
 		
 		
 	
