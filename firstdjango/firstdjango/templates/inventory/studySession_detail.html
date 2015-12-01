@@ -3,9 +3,9 @@
 
 {% block content %}
 	<a href="{% url 'index' %}">Back</a>
-	<h3>{{ studySession.title|capfirst }}</h3>
-	<p> {{ studySession.startPage }} Start Page</p>
-	<p> {{ studySession.endPage }} End Page</p>
-	<p> {{ studySession.timeSpent }} Minutes Spent on task</p>
-	<p> {{ studySession.endPage|sub:studySession.startPage|div:studySession.timeSpent|mul:60 }} Pages/Hour</p>
+	<h3>You read: {{ studySession.reading|capfirst }}</h3>
+	<p> Starting at page: {{ studySession.startPage }} </p>
+	<p> and reading to page: {{ studySession.endPage }} </p>
+	<p> Spending <strong>{{ studySession.timeSpent }}</strong> Minutes </p>
+	<p> For a reading speed of: <strong>{{ studySession.endPage|sub:studySession.startPage|div:studySession.timeSpent|mul:60 }} Pages per Hour!</strong></p>
 {% endblock %}
