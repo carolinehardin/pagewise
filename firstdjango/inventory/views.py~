@@ -32,7 +32,7 @@ def item_detail(request, id):
 		pagesRead = 0
 		justMatchedSessions = StudySessions.objects.filter(reading=id)
 		for oneSession in justMatchedSessions:
-			pagesRead = oneSession.endPage#pagesRead + oneSession.endPage-oneSession.startPage
+			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
 		percentRead = round(float(pagesRead) / float(item.endPage - item.startPage), 2)* 100
 		
 	except Item.DoesNotExist:
