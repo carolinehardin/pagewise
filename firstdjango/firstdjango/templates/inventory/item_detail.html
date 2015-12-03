@@ -7,8 +7,10 @@
 	<p> Start Page: {{ item.startPage }} </p>
 	<p> End Page: {{ item.endPage }}</p>
 	<p> Total Pages: {{item.endPage|sub:item.startPage}}</p>
-	<h4> Course </h4>
-	<p> {{ item.course }}</p>
-	<h5> Due Date</h5>
-	<p>{{ item.dueDate }}
+	<p> Course : {{ item.course }}</p>
+	<p> Due Date: {{ item.dueDate }} </p>
+	<p> Pages Read: {{ pagesRead }} </p>
+	<p> Percent Read: {{ percentRead }} </p>
+	
+	
 {% endblock %}
