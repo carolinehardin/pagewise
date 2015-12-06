@@ -1,13 +1,13 @@
 from django import forms
 from inventory.models import Item, StudySessions, Course
-#from django.core.exceptions improt ValidationError
+#from django.core.exceptions import ValidationError
 
 class newReadingForm(forms.ModelForm): 
 	title = forms.CharField(label='Name of Reading', help_text="Title of the reading", required=True)
 	startPage = forms.IntegerField(label='Start Page', help_text="Start Page", required=True)
 	endPage = forms.IntegerField(label='length', help_text="Number of pages", required=True)
 	dueDate = forms.DateField(label="Due Date",help_text="Due Date", required=True)
-	course = forms.CharField(widget=forms.HiddenInput(), initial="1")
+	course = forms.ModelChoiceField(queryset=Course.objects.all(), to_field_name="title", help_text="What course is this for?", required=True)
 	
 	class Meta:
 		model = Item
@@ -22,7 +22,7 @@ class newSessionForm(forms.ModelForm):
 	reading = forms.ModelChoiceField(queryset=Item.objects.all(), to_field_name="title", required=True)
 	class Meta:
 		model = StudySessions
-		fields = ('date','startPage', 'endPage', 'timeSpent')
+		fields = ('date','startPage', 'endPage', 'timeSpent', 'reading')
 		
 		
 	

@@ -10,7 +10,7 @@
 	<p> Course : {{ item.course }}</p>
 	<p> Due Date: {{ item.dueDate }} </p>
 	<p> Pages Read: {{ pagesRead }} </p>
-	<p> Percent Read: {{ percentRead }} </p>
+	<p> Percent Read: {{ percentRead }} %	 <progress value={{percentRead}} max="100"></progress> </p>
 	
 	
 {% endblock %}
