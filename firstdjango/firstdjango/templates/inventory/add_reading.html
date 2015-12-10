@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Pagewise</title>
-    </head>
+{% extends "base.html" %}
 
-    <body>
+{% block content %}
         <h1>Add a Reading!</h1>
 
         <form id="reading_form" method="post" action="/add_reading/">
@@ -23,6 +19,4 @@
 
             <input type="submit" name="submit" value="Create Reading" />
         </form>
-    </body>
-
-</html>
+   {% endblock %}

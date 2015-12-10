@@ -1,0 +1,31 @@
+h1{color:#CD9B1D} 
+h1{font-size: 60px}
+h1{text-align:center}
+h1{text-decoration: underline;
+}
+body{background-color: #63302F;
+    padding-left: 15px;
+    font-family: "lobster", "cursive";
+    background-image: url("ladderlib.gif");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+li {display:color; #720000;}
+h2{color:#CD9B1D}
+h2{color:#CD9B1D}
+h2{color:#CD9B1D}
+h4{color:#CD9B1D}
+h5{color:#CD9B1D}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.dropbtn {
+    background-color: #720000;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
