@@ -49,10 +49,16 @@ def item_detail(request, id):
 		item = Item.objects.get(id=id)
 		percentRead = 0
 		pagesRead = 0
+		minutesSpent = 0
 		justMatchedSessions = StudySessions.objects.filter(reading=id)
 		for oneSession in justMatchedSessions:
 			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
+			minutesSpent = minutesSpent + oneSession.timeSpent
 		percentRead = round(float(pagesRead) / float(item.endPage - item.startPage), 2)* 100
+		if minutesSpent == 0:
+			rateOfReading = 0
+		else: 
+			rateOfReading = round(float(pagesRead) / float(minutesSpent), 2)
 		
 	except Item.DoesNotExist:
 		raise Http404('This item does not exist')
@@ -60,6 +66,8 @@ def item_detail(request, id):
 		'item': item,
 		'percentRead': percentRead,
 		'pagesRead' : pagesRead,
+		'minutesSpent' : minutesSpent,
+		'rateOfReading' : rateOfReading,
 	})
 	
 def studySession_detail(request, id):

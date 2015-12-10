@@ -11,6 +11,10 @@
 	<p> Due Date: {{ item.dueDate }} </p>
 	<p> Pages Read: {{ pagesRead }} </p>
 	<p> Percent Read: {{ percentRead }} %	 <progress value={{percentRead}} max="100"></progress> </p>
-	
-	
+	<p> Total Minutes Spent Reading: {{ minutesSpent }} </p>
+	<p> Rate of Reading (pages/hr): {{ rateOfReading|mul:60 }} </p> 
+{% if rateOfReading > 0%}
+	<p> Minutes Needed to Complete Reading: {{ item.endPage|sub:item.startPage|div:rateOfReading|floatformat}} </p>
+	<p> Hours Needed to Complete Reading: {{ item.endPage|sub:item.startPage|div:rateOfReading|div:60|floatformat}} </p>
+{% endif %}	
 {% endblock %}
