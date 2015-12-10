@@ -48,12 +48,17 @@
 	
 	<h3>Courses</h3>
 	<ul>
-		{% for course in course %}
+		{% for oneCourse in course %}
 			<li>
+<<<<<<< Updated upstream
 				<a href="{% url 'course_detail' course.id %}">
 					{{ course.title|capfirst}}
 					
 				
+=======
+				<a href="{% url 'course_detail' oneCourse.id %}">
+					{{ oneCourse.title|capfirst }}					
+>>>>>>> Stashed changes
 				</a>
 			</li>
 		{% endfor %}	

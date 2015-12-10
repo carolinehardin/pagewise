@@ -3,4 +3,20 @@
 {% block content %}
 	<a href="{% url 'index' %}">Back</a>
 	<h3>{{ course.title|capfirst }} </h3>
+	
+	<ul>
+	
+		{% for courseItem in courseItems %}
+			<li>
+				<a href="{% url 'course_detail' courseItem.id %}">
+					{{ courseItem.title|capfirst }}     
+				</a>
+			<p> Percent Read: {{ courseItem.percentRead }} %	 <progress value={{courseItem.percentRead}} max="100"></progress> </p>
+				
+			</li>
+		{% endfor %}	
+			
+	</ul>
+	
+	
 {% endblock %}
