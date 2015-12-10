@@ -1,0 +1,41 @@
+body{
+	background-color: #63302F;
+    padding-left: 15px;
+    font-family: "lobster", "cursive", serif;
+    font-size: 1.75rem;
+    background-image: url("ladderlib.gif");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+li a { color: #428bca; }
+li a:hover {color: #fff; text-decoration: none;}
+
+h1 {	
+	color:#CD9B1D;
+	font-size: 70px;
+	text-align:center;
+	text-decoration: underline;
+}
+h2 {color:#CD9B1D}
+h4 {color:#CD9B1D}
+h5 {color:#CD9B1D}
+
+p { color: #fff; font-family: "Palatino", serif; }
+
+header {  }
+nav { 
+	width: 25%; 
+	float: left;
+	margin: .5rem;
+	padding: 0 .5rem;
+	}
+	
+section.callout { 
+	width: 72%; 
+	float: left;
+	margin: .5rem;
+	padding: 2.5rem;
+	background-color: #63302F;
+	border-radius: 15px;
+}
