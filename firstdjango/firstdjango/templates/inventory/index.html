@@ -1,15 +1,22 @@
 {% extends "base.html" %}
+{% load mathfilters %}
 
 {% block content %}
 	<h3>Unfinished Readings</h3>
 	<ul>
+	
 		{% for item in items %}
 			<li>
 				<a href="{% url 'item_detail' item.id %}">
 					{{ item.title|capfirst }}     
 				</a>
+				
+
+			<progress value={{item.percentRead}} max="100"></progress> </p>
+			
 			</li>
 		{% endfor %}	
+			
 	</ul>
 	
 
@@ -23,6 +30,8 @@
 			<li>
 				<a href="{% url 'studySession_detail' studySession.id %}">
 					{{ studySession.date }}
+					
+					{{studySession.reading}}
 				</a>
 			</li>
 		{% endfor %}

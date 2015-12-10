@@ -14,10 +14,29 @@ def index(request):
 	course = Course.objects.all()
 	totalMinSpent = 0
 	totalPgRead = 0
+	
+	
 	for oneSession in studySessions:
 		totalPgRead = totalPgRead+oneSession.endPage-oneSession.startPage
 		totalMinSpent = totalMinSpent+oneSession.timeSpent					
 	readingSpeed = round(float(totalPgRead)/float(totalMinSpent)*60, 2)
+	
+	for oneReading in items:
+		
+		#calculate percent read
+		percentRead = 0
+		pagesRead = 0
+		
+		#find all matching study sessions
+		justMatchedSessions = StudySessions.objects.filter(reading = oneReading.id)
+		
+		#for each matching study session, count up the number of pages read
+		for oneSession in justMatchedSessions:
+			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
+		
+		#save the percent read to the reading	
+		oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage), 2)* 100
+	
 	return render(request, 'inventory/index.html', {
 		'items': items,
 		'studySessions': studySessions,
