@@ -1,15 +1,18 @@
+{% load staticfiles %}
 <!doctype html>
 <html>
 	<head>
-			<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{% static 'css/pagewise.css' %}">
+		<link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 		<meta charset="utf-8">
 		<title>Pagewise</title>
-		<meta name="description" content"">
-		
+		<meta name="description" content="">
 		
 	</head>
-	<body>
+	<body
+		<h1 style="color: red">FOO</h1>
 		{% block content %}
 		{% endblock content %}
 	</body>
