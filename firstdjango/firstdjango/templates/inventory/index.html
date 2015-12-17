@@ -4,9 +4,7 @@
 
 {% block content %}
 
-<header>
-	<h1>PageWise</h1> 
-</header>
+
 <nav>
 	<h2>Courses</h2>
 	<ul>
@@ -30,7 +28,8 @@
 				</a>
 				
 
-			<progress value={{item.percentRead}} max="100"></progress> {{item.dueDate}}</p>
+			<progress class="progressbar" value={{item.percentRead}} max="100"></progress> 
+			<span class="date">{{item.dueDate}}</span>
 			
 			</li>
 		{% endfor %}	
@@ -46,23 +45,24 @@
 		{% for studySession in studySessions %}
 			<li>
 				<a href="{% url 'studySession_detail' studySession.id %}">
-					{{ studySession.date }}
-					
-					{{studySession.reading}}
+					<span class="date">{{ studySession.date }}</span>
+					<span class="reading">{{studySession.reading}}</span>
 				</a>
 			</li>
 		{% endfor %}
-	
-		<h4> Overall Reading Speed (pages/hour) </h4>
-			{{ readingSpeed }}		
 	</ul>
 		<form id="session_form" method="get" action="/add_session/">
-		<input type="submit" name="submit" value="Record Study Session" />
-    </form>
+			<input type="submit" name="submit" value="Record Study Session" />
+		</form>
+	
+		<h2> Overall Reading Speed (pages/hour) </h4>
+			<span class="speed">{{ readingSpeed }}</span>		
 
+		
 </nav>
-<section class="callout">
 
+<section class="callout">
+	<h1>Pagewise</h1>
 	<h2>Welcome to PageWise, where YOU make your academic dreams come true.</h2>
 	<p>To put it plainly, PageWise is not so very different than all the other academic apps out there; your schedule, grades, assignments, etc. and Pagewise has all these things, too.
 

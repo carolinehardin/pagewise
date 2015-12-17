@@ -1,8 +1,9 @@
 body{
 	background-color: #63302F;
     padding-left: 15px;
-    font-family: "lobster", "cursive", serif;
-    font-size: 1.75rem;
+    font-family: "Palatino", serif;
+    font-size: 1.75em;
+    font-weight: bold;
     background-image: url("ladderlib.gif");
     background-repeat: no-repeat;
     background-size: 100%;
@@ -11,6 +12,7 @@ body{
 li a { color: #428bca; }
 li a:hover {color: #fff; text-decoration: none;}
 
+h1, h2, h3, h4, h5 { font-family: "lobster", "cursive", serif; }
 h1 {	
 	color:#CD9B1D;
 	font-size: 70px;
@@ -27,15 +29,25 @@ header {  }
 nav { 
 	width: 25%; 
 	float: left;
-	margin: .5rem;
-	padding: 0 .5rem;
-	}
+	margin: .5em;
+	padding: 0 .5em;
+	background: rgba(0,0,0,0.40);
+	border-radius: 15px;
+}
 	
 section.callout { 
 	width: 72%; 
 	float: left;
-	margin: .5rem;
-	padding: 2.5rem;
-	background-color: #63302F;
+	margin: .5em;
+	padding: 2.5em;
+	background-color: rgba(0,0,0,0.40);
 	border-radius: 15px;
 }
+progress.progressbar { display: block;}
+span.date, span.reading, span.speed { display: block;}
+span.date, span.speed {color: white;}
+span.reading {color: #428cba;}
+
+form { color: white; }
+form input, form select { color: black; display: block; margin: 0 0 0 15px; }
+form input[type="submit"] { color: black; }
