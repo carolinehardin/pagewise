@@ -81,6 +81,12 @@ def studySession_detail(request, id):
 	
 def course_detail(request, id):
 	try:
+		items = Item.objects.all()
+		studySessions = StudySessions.objects.all()
+		course = Course.objects.all()
+		totalMinSpent = 0
+		totalPgRead = 0
+		
 		course = Course.objects.get(id=id)
 		courseItems = Item.objects.filter(course=id)
 		percentRead = 0

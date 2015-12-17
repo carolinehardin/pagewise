@@ -1,7 +1,6 @@
 body{
 	background-color: #63302F;
     padding-left: 15px;
-    /* font-family: "lobster", "cursive", serif; */
     font-family: "Palatino", serif;
     font-size: 1.75em;
     font-weight: bold;
@@ -13,6 +12,7 @@ body{
 li a { color: #428bca; }
 li a:hover {color: #fff; text-decoration: none;}
 
+h1, h2, h3, h4, h5 { font-family: "lobster", "cursive", serif; }
 h1 {	
 	color:#CD9B1D;
 	font-size: 70px;
@@ -47,3 +47,7 @@ progress.progressbar { display: block;}
 span.date, span.reading, span.speed { display: block;}
 span.date, span.speed {color: white;}
 span.reading {color: #428cba;}
+
+form { color: white; }
+form input, form select { color: black; display: block; margin: 0 0 0 15px; }
+form input[type="submit"] { color: black; }
