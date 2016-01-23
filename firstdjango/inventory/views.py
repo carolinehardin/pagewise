@@ -41,10 +41,19 @@ def index(request):
 			
 			
 		#save the percent read to the reading	
-		oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage), 2)* 100
+		oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage +1), 2)* 100
+		
+		#can't read more than 100%		
+		if oneReading.percentRead > 100:
+				oneReading.percentRead = 100
 		
 		#save the time remaining to read this to the reading
-		oneReading.timeRemaining = round(float(oneReading.endPage - oneReading.startPage - pagesRead) / float(readingSpeed), 2) *60 
+		oneReading.timeRemaining = round(float(oneReading.endPage - oneReading.startPage + 1 - pagesRead) / float(readingSpeed), 2) *60 
+		
+		#no negative time remaining allowed
+		if oneReading.timeRemaining  < 0:
+				oneReading.timeRemaining = 0
+	
 		totalTimeRemaining = totalTimeRemaining + oneReading.timeRemaining
 	
 	return render(request, 'inventory/index.html', {
@@ -71,8 +80,12 @@ def item_detail(request, id):
 		if pagesRead == 0:
 			percentRead = 0
 		else:	
-			percentRead = round(float(pagesRead) / float(item.endPage - item.startPage), 2)* 100
-		
+			percentRead = round(float(pagesRead) / float(item.endPage - item.startPage +1 ), 2)* 100
+			
+			#can't read more than 100%		
+			if percentRead > 100:
+				percentRead = 100
+				
 		if minutesSpent == 0:
 			rateOfReading = 0
 		else: 
