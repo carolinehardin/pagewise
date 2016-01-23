@@ -5,8 +5,8 @@ from inventory.models import Item, StudySessions, Course
 class newReadingForm(forms.ModelForm): 
 	title = forms.CharField(label='Name of Reading', help_text="Title of the reading", required=True)
 	startPage = forms.IntegerField(label='Start Page', help_text="Start Page", required=True)
-	endPage = forms.IntegerField(label='length', help_text="Number of pages", required=True)
-	dueDate = forms.DateField(label="Due Date",help_text="Due Date", required=True)
+	endPage = forms.IntegerField(label='length', help_text="End Page", required=True)
+	dueDate = forms.DateField(label="Due Date dd/mm/yyyy",help_text="Due Date", required=True)
 	course = forms.ModelChoiceField(queryset=Course.objects.all(), to_field_name="title", help_text="What course is this for?", required=True)
 	
 	class Meta:

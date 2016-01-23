@@ -14,13 +14,18 @@ def index(request):
 	course = Course.objects.all()
 	totalMinSpent = 0
 	totalPgRead = 0
+	totalTimeRemaining = 0
 	
 	
 	for oneSession in studySessions:
 		totalPgRead = totalPgRead+oneSession.endPage-oneSession.startPage
-		totalMinSpent = totalMinSpent+oneSession.timeSpent					
-	readingSpeed = round(float(totalPgRead)/float(totalMinSpent)*60, 2)
-	
+		totalMinSpent = totalMinSpent+oneSession.timeSpent
+		
+	if totalMinSpent > 0:					
+		readingSpeed = round(float(totalPgRead)/float(totalMinSpent)*60, 2)
+	else:
+		readingSpeed = 0
+		
 	for oneReading in items:
 		
 		#calculate percent read
@@ -32,16 +37,22 @@ def index(request):
 		
 		#for each matching study session, count up the number of pages read
 		for oneSession in justMatchedSessions:
-			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
-		
+			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage +1 #add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
+			
+			
 		#save the percent read to the reading	
 		oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage), 2)* 100
+		
+		#save the time remaining to read this to the reading
+		oneReading.timeRemaining = round(float(oneReading.endPage - oneReading.startPage - pagesRead) / float(readingSpeed), 2) *60 
+		totalTimeRemaining = totalTimeRemaining + oneReading.timeRemaining
 	
 	return render(request, 'inventory/index.html', {
 		'items': items,
 		'studySessions': studySessions,
 		'course': course,
 		'readingSpeed': readingSpeed,
+		'totalTimeRemaining': totalTimeRemaining,
 	})
 
 def item_detail(request, id):
@@ -51,10 +62,17 @@ def item_detail(request, id):
 		pagesRead = 0
 		minutesSpent = 0
 		justMatchedSessions = StudySessions.objects.filter(reading=id)
+		
 		for oneSession in justMatchedSessions:
-			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
+			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage +1
 			minutesSpent = minutesSpent + oneSession.timeSpent
-		percentRead = round(float(pagesRead) / float(item.endPage - item.startPage), 2)* 100
+		
+		#avoid div by zero errors
+		if pagesRead == 0:
+			percentRead = 0
+		else:	
+			percentRead = round(float(pagesRead) / float(item.endPage - item.startPage), 2)* 100
+		
 		if minutesSpent == 0:
 			rateOfReading = 0
 		else: 
