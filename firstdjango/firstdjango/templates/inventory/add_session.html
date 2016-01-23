@@ -3,6 +3,7 @@
 
 {% block content %}
         <h1>Record a Study Session!</h1>
+        Today's date:{% now "d/m/Y" %}
 
         <form id="session_form" method="post" action="/add_session/">
 
