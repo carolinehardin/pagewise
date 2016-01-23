@@ -26,7 +26,7 @@
 				
 
 			<progress class="progressbar" value={{item.percentRead}} max="100"></progress>{{item.percentRead}} 
-			<span class="date">Due: {{item.dueDate}} </span>
+			<span class="date">Due: {{item.dueDate| date:"D M d"}} </span>
 			<span class="date">Minutes to finish: {{item.timeRemaining}}</span>
 			
 			</li>
