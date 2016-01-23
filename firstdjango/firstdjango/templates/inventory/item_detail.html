@@ -6,7 +6,7 @@
 	<h3>{{ item.title|capfirst }}</h3>
 	<p> Start Page: {{ item.startPage }} </p>
 	<p> End Page: {{ item.endPage }}</p>
-	<p> Total Pages: {{item.endPage|sub:item.startPage}}</p>
+	<p> Total Pages: {{item.endPage|sub:item.startPage|add:1}}</p> <!--add one because it's inclusive length -->
 	<p> Course : {{ item.course }}</p>
 	<p> Due Date: {{ item.dueDate }} </p>
 	<p> Pages Read: {{ pagesRead }} </p>
@@ -14,7 +14,7 @@
 	<p> Total Minutes Spent Reading: {{ minutesSpent }} </p>
 	<p> Rate of Reading (pages/hr): {{ rateOfReading|mul:60 }} </p> 
 {% if rateOfReading > 0%}
-	<p> Minutes Needed to Complete Reading: {{ item.endPage|sub:item.startPage|div:rateOfReading|floatformat}} </p>
-	<p> Hours Needed to Complete Reading: {{ item.endPage|sub:item.startPage|div:rateOfReading|div:60|floatformat}} </p>
+	<p> Minutes Needed to Complete Reading: {{ item.endPage|sub:item.startPage|add:1|sub:pagesRead|div:rateOfReading|floatformat}} </p>
+	<p> Hours Needed to Complete Reading: {{ item.endPage|sub:item.startPage|add:1|sub:pagesRead|div:rateOfReading|div:60|floatformat}} </p>
 {% endif %}	
 {% endblock %}
