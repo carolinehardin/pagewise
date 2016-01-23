@@ -6,16 +6,13 @@
 
 
 <nav>
-	<h2>Courses</h2>
-	<ul>
-		{% for course in course %}
-			<li>
-				<a href="{% url 'course_detail' course.id %}">
-					{{ course.title|capfirst }}
-				</a>
-			</li>
-		{% endfor %}	
-	</ul>	
+	
+	<h2> Overall Reading Speed (pages/hour) </h4>
+			<span class="speed">{{ readingSpeed }}</span>	
+		<h2> Time to Complete all unfinished readings</h2>
+			<span class="speed">In Minutes: {{ totalTimeRemaining }}</span>		
+			<span class="speed">In Hours: {{ totalTimeRemaining|div:60|floatformat}}</span>	
+	
 	
 	<h2>Unfinished Readings</h2>
 	<ul>
@@ -29,7 +26,8 @@
 				
 
 			<progress class="progressbar" value={{item.percentRead}} max="100"></progress> 
-			<span class="date">{{item.dueDate}}</span>
+			<span class="date">Due: {{item.dueDate}} </span>
+			<span class="date">Minutes to finish: {{item.timeRemaining}}</span>
 			
 			</li>
 		{% endfor %}	
@@ -55,8 +53,16 @@
 			<input type="submit" name="submit" value="Record Study Session" />
 		</form>
 	
-		<h2> Overall Reading Speed (pages/hour) </h4>
-			<span class="speed">{{ readingSpeed }}</span>		
+	<h2>By Courses</h2>
+	<ul>
+		{% for course in course %}
+			<li>
+				<a href="{% url 'course_detail' course.id %}">
+					{{ course.title|capfirst }}
+				</a>
+			</li>
+		{% endfor %}	
+	</ul>		
 
 		
 </nav>

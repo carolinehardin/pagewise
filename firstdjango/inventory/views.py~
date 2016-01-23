@@ -14,10 +14,31 @@ def index(request):
 	course = Course.objects.all()
 	totalMinSpent = 0
 	totalPgRead = 0
+	
+	
 	for oneSession in studySessions:
 		totalPgRead = totalPgRead+oneSession.endPage-oneSession.startPage
-		totalMinSpent = totalMinSpent+oneSession.timeSpent					
-	readingSpeed = round(float(totalPgRead)/float(totalMinSpent)*60, 2)
+		totalMinSpent = totalMinSpent+oneSession.timeSpent
+	if totalMinSpent > 0:					
+		readingSpeed = round(float(totalPgRead)/float(totalMinSpent)*60, 2)
+	else:
+		readingSpeed = 0
+	for oneReading in items:
+		
+		#calculate percent read
+		percentRead = 0
+		pagesRead = 0
+		
+		#find all matching study sessions
+		justMatchedSessions = StudySessions.objects.filter(reading = oneReading.id)
+		
+		#for each matching study session, count up the number of pages read
+		for oneSession in justMatchedSessions:
+			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
+		
+		#save the percent read to the reading	
+		oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage), 2)* 100
+	
 	return render(request, 'inventory/index.html', {
 		'items': items,
 		'studySessions': studySessions,
@@ -30,10 +51,16 @@ def item_detail(request, id):
 		item = Item.objects.get(id=id)
 		percentRead = 0
 		pagesRead = 0
+		minutesSpent = 0
 		justMatchedSessions = StudySessions.objects.filter(reading=id)
 		for oneSession in justMatchedSessions:
 			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
+			minutesSpent = minutesSpent + oneSession.timeSpent
 		percentRead = round(float(pagesRead) / float(item.endPage - item.startPage), 2)* 100
+		if minutesSpent == 0:
+			rateOfReading = 0
+		else: 
+			rateOfReading = round(float(pagesRead) / float(minutesSpent), 2)
 		
 	except Item.DoesNotExist:
 		raise Http404('This item does not exist')
@@ -41,6 +68,8 @@ def item_detail(request, id):
 		'item': item,
 		'percentRead': percentRead,
 		'pagesRead' : pagesRead,
+		'minutesSpent' : minutesSpent,
+		'rateOfReading' : rateOfReading,
 	})
 	
 def studySession_detail(request, id):
@@ -54,11 +83,27 @@ def studySession_detail(request, id):
 	
 def course_detail(request, id):
 	try:
+		items = Item.objects.all()
+		studySessions = StudySessions.objects.all()
+		course = Course.objects.all()
+		totalMinSpent = 0
+		totalPgRead = 0
+		
 		course = Course.objects.get(id=id)
+		courseItems = Item.objects.filter(course=id)
+		percentRead = 0
+		
+		for oneReading in courseItems:
+			pagesRead = 0
+			justMatchedSessions = StudySessions.objects.filter(reading=oneReading.id)
+			for oneSession in justMatchedSessions:
+				pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
+			oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage), 2)* 100			
 	except Course.DoesNotExist:
 		raise Http404('This course does not exist')
 	return render(request, 'inventory/course_detail.html', {
 		'course': course,
+		'courseItems': courseItems,
 	})
 	
 def add_reading(request):
