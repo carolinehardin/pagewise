@@ -72,6 +72,7 @@ def index(request):
 		'totalTimeRemaining': totalTimeRemaining,
 		'totalPgRemaining': totalPgRemaining,
 		'pagesAssigned': pagesAssigned,
+		'totalPgRead': totalPgRead,
 	})
 
 def item_detail(request, id):
