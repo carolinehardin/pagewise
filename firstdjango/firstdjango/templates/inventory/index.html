@@ -9,9 +9,10 @@
 	
 	<h2> Overall Reading Speed (pages/hour) </h4>
 			<span class="speed">{{ readingSpeed }}</span>	
-		<h2> Time to Complete all unfinished readings</h2>
-			<span class="speed">In Minutes: {{ totalTimeRemaining }}</span>		
-			<span class="speed">In Hours: {{ totalTimeRemaining|div:60|floatformat}}</span>	
+		<h2> To Complete all unfinished readings</h2>
+			<span class="speed">Pages: {{ totalPgRemaining}}</span>	
+			<span class="speed">Minutes: {{ totalTimeRemaining }}</span>		
+			<span class="speed">Hours: {{ totalTimeRemaining|div:60|floatformat}}</span>	
 	
 	
 	<h2>Unfinished Readings</h2>
@@ -25,7 +26,7 @@
 				</a>
 				
 
-			<progress class="progressbar" value={{item.percentRead}} max="100"></progress>{{item.percentRead}} 
+			<progress class="progressbar" value={{item.percentRead}} max="100"></progress>
 			<span class="date">Due: {{item.dueDate| date:"D M d"}} </span>
 			<span class="date">Minutes to finish: {{item.timeRemaining}}</span>
 			
@@ -39,6 +40,9 @@
     </form>
           
 	<h2>Study Sessions</h2>
+	<form id="session_form" method="get" action="/add_session/">
+			<input type="submit" name="submit" value="Record Study Session" />
+		</form>
 	<ul>
 		{% for studySession in studySessions %}
 			<li>
@@ -49,9 +53,7 @@
 			</li>
 		{% endfor %}
 	</ul>
-		<form id="session_form" method="get" action="/add_session/">
-			<input type="submit" name="submit" value="Record Study Session" />
-		</form>
+		
 	
 	<h2>By Courses</h2>
 	<ul>

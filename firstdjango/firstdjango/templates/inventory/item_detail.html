@@ -6,7 +6,7 @@
 	<h3>{{ item.title|capfirst }}</h3>
 	<p> Start Page: {{ item.startPage }} </p>
 	<p> End Page: {{ item.endPage }}</p>
-	<p> Total Pages: {{item.endPage|sub:item.startPage|add:1}}</p> <!--add one because it's inclusive length -->
+	<p> Total Pages: {{pagesAssigned}}</p> 
 	<p> Course : {{ item.course }}</p>
 	<p> Due Date: {{ item.dueDate }} </p>
 	<p> Pages Read: {{ pagesRead }} </p>
