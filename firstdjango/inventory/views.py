@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
+from datetime import datetime
 
 from inventory.models import Item
 from inventory.models import StudySessions
@@ -16,6 +17,10 @@ def index(request):
 	totalPgRead = 0
 	totalTimeRemaining = 0
 	totalPgRemaining = 0
+	futureDue = [] #this will save every reading due soon
+	pastDue = [] #stuff due today or earlier
+	now = datetime.now().date()
+	date_format = "%d/%m/%Y %H:%M:%S"
 	
 	
 	for oneSession in studySessions:
@@ -29,6 +34,12 @@ def index(request):
 		readingSpeed = 0
 		
 	for oneReading in items:
+		
+		#if it's due in the future
+		if oneReading.dueDate > now:
+			futureDue.append(oneReading)
+		else:
+			pastDue.append(oneReading)
 		
 		#calculate percent read
 		percentRead = 0
@@ -73,6 +84,8 @@ def index(request):
 		'totalPgRemaining': totalPgRemaining,
 		'pagesAssigned': pagesAssigned,
 		'totalPgRead': totalPgRead,
+		'futureDue': futureDue,
+		'pastDue' : pastDue,
 	})
 
 def item_detail(request, id):

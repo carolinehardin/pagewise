@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load mathfilters %}
 
-
 {% block content %}
 
 
@@ -15,11 +14,35 @@
 			<span class="speed">Minutes: {{ totalTimeRemaining }}</span>		
 			<span class="speed">Hours: {{ totalTimeRemaining|div:60|floatformat}}</span>	
 	
-	
-	<h2>Unfinished Readings</h2>
+	<form id="session_form" method="get" action="/add_session/">
+			<input type="submit" name="submit" value="Record Study Session" />
+	</form>
+		
+	<h2>Future Due Readings</h2>
 	<ul>
 	
-		{% for item in items %}
+		{% for item in futureDue %}
+			<li>
+				<a href="{% url 'item_detail' item.id %}">
+				{{ item.title|capfirst }}  
+				
+				</a>
+				
+
+			<progress class="progressbar" value={{item.percentRead}} max="100"></progress>
+			<span class="date">Due: {{item.dueDate| date:"D M d"}} </span>
+			<span class="date">Minutes to finish: {{item.timeRemaining}}</span>
+			
+			</li>
+		{% endfor %}	
+			
+	</ul>
+	
+	
+	<h2>Past Readings</h2>
+	<ul>
+	
+		{% for item in pastDue %}
 			<li>
 				<a href="{% url 'item_detail' item.id %}">
 				{{ item.title|capfirst }}  
@@ -41,9 +64,7 @@
     </form>
           
 	<h2>Study Sessions</h2>
-	<form id="session_form" method="get" action="/add_session/">
-			<input type="submit" name="submit" value="Record Study Session" />
-		</form>
+	
 	<ul>
 		{% for studySession in studySessions %}
 			<li>
