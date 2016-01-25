@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
+from datetime import datetime
 
 from inventory.models import Item
 from inventory.models import StudySessions
@@ -15,12 +16,18 @@ def index(request):
 	totalMinSpent = 0
 	totalPgRead = 0
 	totalTimeRemaining = 0
+	totalPgRemaining = 0
+	futureDue = [] #this will save every reading due soon
+	pastDue = [] #stuff due today or earlier
+	now = datetime.now().date()
+	date_format = "%d/%m/%Y %H:%M:%S"
 	
 	
 	for oneSession in studySessions:
-		totalPgRead = totalPgRead+oneSession.endPage-oneSession.startPage
-		totalMinSpent = totalMinSpent+oneSession.timeSpent
-		
+		totalPgRead = totalPgRead + oneSession.endPage-oneSession.startPage + 1  #add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
+		totalMinSpent = totalMinSpent + oneSession.timeSpent
+	
+	#avoid divide by zero errors	
 	if totalMinSpent > 0:					
 		readingSpeed = round(float(totalPgRead)/float(totalMinSpent)*60, 2)
 	else:
@@ -28,32 +35,44 @@ def index(request):
 		
 	for oneReading in items:
 		
+		#if it's due in the future
+		if oneReading.dueDate > now:
+			futureDue.append(oneReading)
+		else:
+			pastDue.append(oneReading)
+		
 		#calculate percent read
 		percentRead = 0
 		pagesRead = 0
 		
+		#calculate pages in reading
+		pagesAssigned = oneReading.endPage - oneReading.startPage + 1
+					
 		#find all matching study sessions
 		justMatchedSessions = StudySessions.objects.filter(reading = oneReading.id)
 		
 		#for each matching study session, count up the number of pages read
 		for oneSession in justMatchedSessions:
-			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage +1 #add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
+			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage +1
 			
-			
+		#add pages left to total pages left
+		totalPgRemaining = totalPgRemaining + pagesAssigned - pagesRead 
+		
 		#save the percent read to the reading	
-		oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage +1), 2)* 100
+		oneReading.percentRead = round(float(pagesRead) / float(pagesAssigned), 2)* 100
 		
 		#can't read more than 100%		
 		if oneReading.percentRead > 100:
 				oneReading.percentRead = 100
 		
 		#save the time remaining to read this to the reading
-		oneReading.timeRemaining = round(float(oneReading.endPage - oneReading.startPage + 1 - pagesRead) / float(readingSpeed), 2) *60 
-		
+		oneReading.timeRemaining = round(float(pagesAssigned - pagesRead) / float(readingSpeed), 2) *60 
+			
 		#no negative time remaining allowed
 		if oneReading.timeRemaining  < 0:
 				oneReading.timeRemaining = 0
-	
+		
+		#keep track of what this reading adds to total time remainig
 		totalTimeRemaining = totalTimeRemaining + oneReading.timeRemaining
 	
 	return render(request, 'inventory/index.html', {
@@ -62,6 +81,11 @@ def index(request):
 		'course': course,
 		'readingSpeed': readingSpeed,
 		'totalTimeRemaining': totalTimeRemaining,
+		'totalPgRemaining': totalPgRemaining,
+		'pagesAssigned': pagesAssigned,
+		'totalPgRead': totalPgRead,
+		'futureDue': futureDue,
+		'pastDue' : pastDue,
 	})
 
 def item_detail(request, id):
