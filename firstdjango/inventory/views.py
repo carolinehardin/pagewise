@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import Http404
-from datetime import datetime
+
+import datetime
+from datetime import datetime, timedelta
 
 from inventory.models import Item
 from inventory.models import StudySessions
@@ -19,9 +21,8 @@ def index(request):
 	totalPgRemaining = 0
 	futureDue = [] #this will save every reading due soon
 	pastDue = [] #stuff due today or earlier
-	now = datetime.now().date()
-	date_format = "%d/%m/%Y %H:%M:%S"
 	
+	now = datetime.now().date()
 	
 	for oneSession in studySessions:
 		totalPgRead = totalPgRead + oneSession.endPage-oneSession.startPage + 1  #add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
@@ -86,6 +87,7 @@ def index(request):
 		'totalPgRead': totalPgRead,
 		'futureDue': futureDue,
 		'pastDue' : pastDue,
+
 	})
 
 def item_detail(request, id):
@@ -95,6 +97,7 @@ def item_detail(request, id):
 		pagesRead = 0
 		minutesSpent = 0
 		justMatchedSessions = StudySessions.objects.filter(reading=id)
+		pagesAssigned = float(item.endPage - item.startPage +1 )
 		
 		for oneSession in justMatchedSessions:
 			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage +1
@@ -104,7 +107,7 @@ def item_detail(request, id):
 		if pagesRead == 0:
 			percentRead = 0
 		else:	
-			percentRead = round(float(pagesRead) / float(item.endPage - item.startPage +1 ), 2)* 100
+			percentRead = round(float(pagesRead) / pagesAssigned, 2)* 100
 			
 			#can't read more than 100%		
 			if percentRead > 100:
@@ -123,6 +126,7 @@ def item_detail(request, id):
 		'pagesRead' : pagesRead,
 		'minutesSpent' : minutesSpent,
 		'rateOfReading' : rateOfReading,
+		'pagesAssigned': pagesAssigned,
 	})
 	
 def studySession_detail(request, id):

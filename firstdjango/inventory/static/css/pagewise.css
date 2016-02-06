@@ -27,7 +27,7 @@ p { color: #fff; font-family: "Palatino", serif; }
 
 header {  }
 nav { 
-	width: 25%; 
+	width: 65%; 
 	float: left;
 	margin: .5em;
 	padding: 0 .5em;
@@ -36,7 +36,7 @@ nav {
 }
 	
 section.callout { 
-	width: 72%; 
+	width: 32%; 
 	float: left;
 	margin: .5em;
 	padding: 2.5em;

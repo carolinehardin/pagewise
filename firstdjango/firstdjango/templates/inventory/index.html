@@ -6,7 +6,7 @@
 
 <nav>
 	
-	<h2> Progress  </h4>
+	<h2> Progress for {% now "m/d/Y h:i e" %} </h2>
 			<span class="speed">{{ readingSpeed }} pages/hour</span>	
 			<span class="speed">{{ totalPgRead }} pages read</span> 
 		<h2> To Complete all unfinished readings</h2>
@@ -35,9 +35,12 @@
 			
 			</li>
 		{% endfor %}	
+	
 			
 	</ul>
-	
+		<form id="reading_form" method="get" action="/add_reading/">
+		<input type="submit" name="submit" value="Create Reading" />
+    </form>
 	
 	<h2>Past Readings</h2>
 	<ul>
@@ -59,9 +62,7 @@
 			
 	</ul>
 
-	<form id="reading_form" method="get" action="/add_reading/">
-		<input type="submit" name="submit" value="Create Reading" />
-    </form>
+	
           
 	<h2>Study Sessions</h2>
 	
