@@ -1,11 +1,8 @@
 from django.shortcuts import render
 from django.http import Http404
 
-#from django.utils import timezone #old way
-#from django.utils.timezone import localtime, now
-import pytz #timezone stuff
+import datetime
 from datetime import datetime, timedelta
-from pytz import timezone
 
 from inventory.models import Item
 from inventory.models import StudySessions
@@ -25,9 +22,6 @@ def index(request):
 	futureDue = [] #this will save every reading due soon
 	pastDue = [] #stuff due today or earlier
 	
-	#central = timezone('US/Central')
-	#utcNow = datetime.now(pytz.utc).date() #
-	#now = utcNow.astimezone(central)
 	now = datetime.now().date()
 	
 	for oneSession in studySessions:
@@ -93,6 +87,7 @@ def index(request):
 		'totalPgRead': totalPgRead,
 		'futureDue': futureDue,
 		'pastDue' : pastDue,
+
 	})
 
 def item_detail(request, id):
