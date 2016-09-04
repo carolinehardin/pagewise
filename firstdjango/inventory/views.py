@@ -138,13 +138,15 @@ def studySession_detail(request, id):
 		'studySession': studySession,
 	})
 	
-def course_detail(request, id):
+def course_detail(request, id): 
 	try:
 		items = Item.objects.all()
 		studySessions = StudySessions.objects.all()
 		course = Course.objects.all()
 		totalMinSpent = 0
 		totalPgRead = 0
+		totalPagesToRead = 0
+		totalPercentRead = 0
 		
 		course = Course.objects.get(id=id)
 		courseItems = Item.objects.filter(course=id)
@@ -152,17 +154,28 @@ def course_detail(request, id):
 		
 		for oneReading in courseItems:
 			pagesRead = 0
-			justMatchedSessions = StudySessions.objects.filter(reading=oneReading.id)
+			pagesToRead = float(oneReading.endPage - oneReading.startPage)
+			justMatchedSessions = StudySessions.objects.filter(reading=oneReading.id) 
 			for oneSession in justMatchedSessions:
 				pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
-			oneReading.percentRead = round(float(pagesRead) / float(oneReading.endPage - oneReading.startPage), 2)* 100			
+				totalPgRead = totalPgRead +pagesRead
+			oneReading.percentRead = round(float(pagesRead) / pagesToRead, 2)* 100	
+			totalPagesToRead = totalPagesToRead + pagesToRead	
+	
+		totalPercentRead = round(float(totalPgRead) / totalPagesToRead, 2)* 100	
+	
+	
 	except Course.DoesNotExist:
 		raise Http404('This course does not exist')
 	return render(request, 'inventory/course_detail.html', {
 		'course': course,
 		'courseItems': courseItems,
+		'totalPgRead': totalPgRead,
+		'totalPercentRead': totalPercentRead,
 	})
-	
+
+
+		
 def add_reading(request):
 	# A HTTP POST?
     if request.method == 'POST':
