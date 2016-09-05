@@ -2,10 +2,14 @@
 
 {% block content %}
 	<a href="{% url 'index' %}">Back</a>
-	<h3>{{ course.title|capfirst }} </h3>
+	<h2>{{ course.title|capfirst }} </h2>
+	
+			<span class="speed">Total Pages Read for this Course: {{totalPgRead}} pages </span>
+				<span class="speed">Total Percent Read: {{totalPercentRead}} % <progress value={{totalPercentReads}} max="100"></progress> </span>
+			<br>
 	
 	<ul>
-	
+		
 		{% for courseItem in courseItems %}
 			<li>
 				<a href="{% url 'course_detail' courseItem.id %}">
