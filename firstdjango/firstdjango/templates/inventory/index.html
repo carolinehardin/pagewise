@@ -6,13 +6,7 @@
 
 <nav>
 	
-	<h2> Progress for {% now "m/d/Y h:i e" %} </h2>
-			<span class="speed">{{ readingSpeed }} pages/hour</span>	
-			<span class="speed">{{ totalPgRead }} pages read</span> 
-		<h2> To Complete all unfinished readings</h2>
-			<span class="speed">Pages: {{ totalPgRemaining}}</span>	
-			<span class="speed">Minutes: {{ totalTimeRemaining }}</span>		
-			<span class="speed">Hours: {{ totalTimeRemaining|div:60|floatformat}}</span>	
+		<h1>Pagewise</h1>
 	
 	<form id="session_form" method="get" action="/add_session/">
 			<input type="submit" name="submit" value="Record Study Session" />
@@ -93,12 +87,16 @@
 </nav>
 
 <section class="callout">
-	<h1>Pagewise</h1>
-	<h2>Welcome to PageWise, where YOU make your academic dreams come true.</h2>
-	<p>To put it plainly, PageWise is not so very different than all the other academic apps out there; your schedule, grades, assignments, etc. and Pagewise has all these things, too.
 
-	The unique factor of Pagewise is that it uses mathematical formulas (nicely done for you by the creators of PageWise) giving you the data you need to know how much time you should be dedicating towards each subject. 
-	PageWise has special graphs that make it very easy to plan ahead in each subject as well as finding ways for you to ace the biology test, make sure your reading is done in history, have some free time to veg, and watch the newest episode of your favorite show. </p>
+	<h2> Progress for {% now "m/d/Y h:i e" %} </h2>
+			<span class="speed">{{ readingSpeed }} pages/hour</span>	
+			<span class="speed">{{ totalPgRead }} pages read</span> 
+			<span class="speed">{{ readingSpeed|mul:totalPgRead|div:60|floatformat}} hours spent reading</span>
+			
+		<h2> To Complete all unfinished readings</h2>
+			<span class="speed">Pages: {{ totalPgRemaining}}</span>	
+			<span class="speed">Minutes: {{ totalTimeRemaining }}</span>		
+			<span class="speed">Hours: {{ totalTimeRemaining|div:60|floatformat}}</span>	
 </section>
 
 				

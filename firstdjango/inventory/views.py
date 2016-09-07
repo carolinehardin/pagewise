@@ -12,7 +12,7 @@ from inventory.forms import newReadingForm
 from inventory.forms import newSessionForm
 
 def index(request):
-	items = Item.objects.all()
+	items = Item.objects.all().order_by('-dueDate')
 	studySessions = StudySessions.objects.all()
 	course = Course.objects.all()
 	totalMinSpent = 0
@@ -75,6 +75,7 @@ def index(request):
 		
 		#keep track of what this reading adds to total time remainig
 		totalTimeRemaining = totalTimeRemaining + oneReading.timeRemaining
+	
 	
 	return render(request, 'inventory/index.html', {
 		'items': items,
