@@ -22,10 +22,19 @@ def index(request):
 	futureDue = [] #this will save every reading due soon
 	pastDue = [] #stuff due today or earlier
 	
-	now = datetime.now().date()
+	dueTomorrow = [] # stuff due tomorrow, used for calculating how many hours remaining work you have today
+	tomorrowPgRemaining = 0
+	tomorrowTimeRemaining = 0
+	
+	now = datetime.now().date() 
+	
+	#we will consider tomorrow the next calendar day, not the next 24 hours. 
+	#For example, if it's 3pm on Dec 1st, tomorrow is Dec 2nd, not 3pm Dec 2nd to 2:59 Dec 3rd. So strip out hours.
+	tomorrow = now + timedelta(days=1)
 	
 	for oneSession in studySessions:
-		totalPgRead = totalPgRead + oneSession.endPage-oneSession.startPage + 1  #add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
+		#add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
+		totalPgRead = totalPgRead + oneSession.endPage-oneSession.startPage + 1  
 		totalMinSpent = totalMinSpent + oneSession.timeSpent
 	
 	#avoid divide by zero errors	
@@ -36,12 +45,7 @@ def index(request):
 		
 	for oneReading in items:
 		
-		#if it's due in the future
-		if oneReading.dueDate > now:
-			futureDue.append(oneReading)
-		else:
-			pastDue.append(oneReading)
-		
+			
 		#calculate percent read
 		percentRead = 0
 		pagesRead = 0
@@ -76,6 +80,17 @@ def index(request):
 		#keep track of what this reading adds to total time remainig
 		totalTimeRemaining = totalTimeRemaining + oneReading.timeRemaining
 	
+		#if it's due in the future
+		if oneReading.dueDate > now:
+			futureDue.append(oneReading)
+			# We'd like to know tomorrow due in particular
+			if (oneReading.dueDate == tomorrow ):
+				dueTomorrow.append(oneReading)
+				tomorrowPgRemaining = tomorrowPgRemaining + pagesAssigned - pagesRead 
+				tomorrowTimeRemaining = tomorrowTimeRemaining + oneReading.timeRemaining
+		else: #else, it's due in the past
+			pastDue.append(oneReading)
+	
 	
 	return render(request, 'inventory/index.html', {
 		'items': items,
@@ -88,6 +103,9 @@ def index(request):
 		'totalPgRead': totalPgRead,
 		'futureDue': futureDue,
 		'pastDue' : pastDue,
+		'tomorrow' : tomorrow,
+		'tomorrowPgRemaining' : tomorrowPgRemaining,
+		'tomorrowTimeRemaining' : tomorrowTimeRemaining,
 
 	})
 
