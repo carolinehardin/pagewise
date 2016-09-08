@@ -14,7 +14,7 @@ from inventory.forms import newSessionForm
 def index(request):
 	items = Item.objects.all().order_by('-dueDate')
 	studySessions = StudySessions.objects.all()
-	course = Course.objects.all()
+	course = Course.objects.all().order_by('-id')
 	totalMinSpent = 0
 	totalPgRead = 0
 	totalTimeRemaining = 0

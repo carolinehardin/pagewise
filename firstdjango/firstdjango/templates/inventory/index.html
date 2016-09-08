@@ -12,6 +12,17 @@
 			<input type="submit" name="submit" value="Record Study Session" />
 	</form>
 		
+	<h2>By Course</h2>
+	<ul>
+		{% for course in course %}
+			<li>
+				<a href="{% url 'course_detail' course.id %}">
+					{{ course.title|capfirst }}
+				</a>
+			</li>
+		{% endfor %}	
+	</ul>			
+		
 	<h2>Future Due Readings</h2>
 	<ul>
 	
@@ -72,16 +83,7 @@
 	</ul>
 		
 	
-	<h2>By Courses</h2>
-	<ul>
-		{% for course in course %}
-			<li>
-				<a href="{% url 'course_detail' course.id %}">
-					{{ course.title|capfirst }}
-				</a>
-			</li>
-		{% endfor %}	
-	</ul>		
+	
 
 		
 </nav>
