@@ -6,7 +6,33 @@
 
 <nav>
 	
+<<<<<<< HEAD
 		<h1>Pagewise</h1>
+=======
+	<h2> Progress for {% now "m/d/Y h:i e" %} </h2>
+			<span class="speed">{{ readingSpeed }} pages/hour</span>	
+			<span class="speed">{{ totalPgRead }} pages read</span> 
+			<span class="speed">{{readingSpeed|mul:totalPgRead|div:60|floatformat}} hours spent reading</span>
+	
+	<h2> To Complete all unfinished readings</h2>
+			<span class="speed">Pages: {{ totalPgRemaining}}</span>	
+			<span class="speed">Minutes: {{ totalTimeRemaining }}</span>		
+			<span class="speed">Hours: {{ totalTimeRemaining|div:60|floatformat}}</span>	
+>>>>>>> 1ae0bfa90f05b5b1393a2801c1d41230a7bc51f6
+	
+	
+	<h2>By Course</h2>
+	<ul>
+		{% for course in course %}
+			<li>
+				<a href="{% url 'course_detail' course.id %}">
+					{{ course.title|capfirst }}
+				</a>
+			</li>
+		{% endfor %}	
+	</ul>
+		
+		
 	
 	<form id="session_form" method="get" action="/add_session/">
 			<input type="submit" name="submit" value="Record Study Session" />
@@ -46,6 +72,8 @@
 		<form id="reading_form" method="get" action="/add_reading/">
 		<input type="submit" name="submit" value="Create Reading" />
     </form>
+    	
+    
 	
 	<h2>Past Readings</h2>
 	<ul>
@@ -83,7 +111,10 @@
 	</ul>
 		
 	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 1ae0bfa90f05b5b1393a2801c1d41230a7bc51f6
 
 		
 </nav>
