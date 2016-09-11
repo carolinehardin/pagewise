@@ -20,11 +20,9 @@ class newSessionForm(forms.ModelForm):
 	startPage = forms.IntegerField(label='Start Page', help_text="Start Page", required=True)
 	endPage = forms.IntegerField(label='End Page', help_text="What was the last page you read", required=True)
 	timeSpent = forms.IntegerField(label='Minutes spent reading', help_text="How many minutes did you spend reading?", required=True)
-<<<<<<< HEAD
-	reading = forms.ModelChoiceField(queryset=Item.objects.all().order_by('-id'), to_field_name="title", help_text="What reading did you work on?", required=True)
-=======
+
 	reading = forms.ModelChoiceField(queryset=Item.objects.all().order_by("-dueDate"), to_field_name="title", help_text="What reading did you work on?", required=True)
->>>>>>> 1ae0bfa90f05b5b1393a2801c1d41230a7bc51f6
+
 	class Meta:
 		model = StudySessions
 		fields = ('date','startPage', 'endPage', 'timeSpent', 'reading')
