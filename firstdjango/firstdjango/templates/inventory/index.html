@@ -8,25 +8,6 @@
 	
 
 		<h1>Pagewise</h1>
-
-	<h2> Progress for {% now "m/d/Y h:i e" %} </h2>
-			<span class="speed">{{ readingSpeed }} pages/hour</span>	
-			<span class="speed">{{ totalPgRead }} pages read</span> 
-			<span class="speed">{{readingSpeed|mul:totalPgRead|div:60|floatformat}} hours spent reading</span>
-	
-
-	
-	<h2>By Course</h2>
-	<ul>
-		{% for course in course %}
-			<li>
-				<a href="{% url 'course_detail' course.id %}">
-					{{ course.title|capfirst }}
-				</a>
-			</li>
-		{% endfor %}	
-	</ul>
-		
 		
 	
 	<form id="session_form" method="get" action="/add_session/">
@@ -113,15 +94,23 @@
 
 <section class="callout">
 
-	<h2> Progress for {% now "m/d/Y h:i e" %} </h2>
+		<h2> Total Progress for {% now "m/d/Y h:i e" %} </h2>
 			<span class="speed">{{ readingSpeed }} pages/hour</span>	
 			<span class="speed">{{ totalPgRead }} pages read</span> 
 			<span class="speed">{{ readingSpeed|mul:totalPgRead|div:60|floatformat}} hours spent reading</span>
+		
+		<h2> Average min spent per day for last 7 days </h2>
+			<span class="speed"> {{last7DaysTimeSpent|div:7|floatformat:2}}</span>	
 			
 		<h2>Due Tomorrow, {{ tomorrow }}</h2>	 
 			<span class="speed">Pages: {{ tomorrowPgRemaining}}</span>	
 			<span class="speed">Minutes: {{ tomorrowTimeRemaining }}</span>		
 			<span class="speed">Hours: {{ tomorrowTimeRemaining|div:60|floatformat}}</span>	
+		
+		<h2>Due next 7 days, {{ in7Days}}</h2>	 
+			<span class="speed">Pages: {{ next7DaysPgRemaining}}</span>	
+			<span class="speed">Minutes: {{ next7DaysTimeRemaining }}</span>		
+			<span class="speed">Hours: {{ next7DaysTimeRemaining|div:60|floatformat}}</span>	
 		
 		<h2> To complete all unfinished readings</h2>
 			<span class="speed">Pages: {{ totalPgRemaining}}</span>	
