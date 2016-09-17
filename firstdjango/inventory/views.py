@@ -21,10 +21,16 @@ def index(request):
 	totalPgRemaining = 0
 	futureDue = [] #this will save every reading due soon
 	pastDue = [] #stuff due today or earlier
+	last7DaysTimeSpent = 0
 	
 	dueTomorrow = [] # stuff due tomorrow, used for calculating how many hours remaining work you have today
 	tomorrowPgRemaining = 0
 	tomorrowTimeRemaining = 0
+	
+	dueNext7Days = [] #what's due in next 7 days? good for planning week
+	next7DaysPgRemaining = 0
+	next7DaysTimeRemaining = 0
+	
 	
 	now = datetime.now().date() 
 	
@@ -32,10 +38,17 @@ def index(request):
 	#For example, if it's 3pm on Dec 1st, tomorrow is Dec 2nd, not 3pm Dec 2nd to 2:59 Dec 3rd. So strip out hours.
 	tomorrow = now + timedelta(days=1)
 	
+	in7Days = now + timedelta(days=7) #we count today as part of the week
+	last7Days = now - timedelta(days=7)
+	
 	for oneSession in studySessions:
 		#add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
 		totalPgRead = totalPgRead + oneSession.endPage-oneSession.startPage + 1  
 		totalMinSpent = totalMinSpent + oneSession.timeSpent
+		
+		#add up the time spent only during the last week
+		if oneSession.date > last7Days:
+			last7DaysTimeSpent = last7DaysTimeSpent + oneSession.timeSpent
 	
 	#avoid divide by zero errors	
 	if totalMinSpent > 0:					
@@ -88,9 +101,13 @@ def index(request):
 				dueTomorrow.append(oneReading)
 				tomorrowPgRemaining = tomorrowPgRemaining + pagesAssigned - pagesRead 
 				tomorrowTimeRemaining = tomorrowTimeRemaining + oneReading.timeRemaining
+			if (oneReading.dueDate < in7Days):
+				dueNext7Days.append(oneReading)
+				next7DaysPgRemaining = next7DaysPgRemaining + pagesAssigned - pagesRead 
+				next7DaysTimeRemaining = next7DaysTimeRemaining + oneReading.timeRemaining
 		else: #else, it's due in the past
 			pastDue.append(oneReading)
-	
+
 	
 	return render(request, 'inventory/index.html', {
 		'items': items,
@@ -106,6 +123,10 @@ def index(request):
 		'tomorrow' : tomorrow,
 		'tomorrowPgRemaining' : tomorrowPgRemaining,
 		'tomorrowTimeRemaining' : tomorrowTimeRemaining,
+		'in7Days': in7Days,
+		'next7DaysPgRemaining' : next7DaysPgRemaining,
+		'next7DaysTimeRemaining': next7DaysTimeRemaining,
+		'last7DaysTimeSpent': last7DaysTimeSpent,
 
 	})
 
@@ -166,23 +187,30 @@ def course_detail(request, id):
 		totalPgRead = 0
 		totalPagesToRead = 0
 		totalPercentRead = 0
-		
+				
 		course = Course.objects.get(id=id)
 		courseItems = Item.objects.filter(course=id)
-		percentRead = 0
-		
+			
 		for oneReading in courseItems:
 			pagesRead = 0
 			pagesToRead = float(oneReading.endPage - oneReading.startPage)
+			totalPagesToRead = totalPagesToRead + pagesToRead
+			
 			justMatchedSessions = StudySessions.objects.filter(reading=oneReading.id) 
 			for oneSession in justMatchedSessions:
 				pagesRead = pagesRead + oneSession.endPage-oneSession.startPage
-				totalPgRead = totalPgRead +pagesRead
-			oneReading.percentRead = round(float(pagesRead) / pagesToRead, 2)* 100	
-			totalPagesToRead = totalPagesToRead + pagesToRead	
-	
-		totalPercentRead = round(float(totalPgRead) / totalPagesToRead, 2)* 100	
-	
+			
+			totalPgRead = totalPgRead +pagesRead
+			
+			if (pagesToRead >0):
+				oneReading.percentRead = round(float(pagesRead) / pagesToRead, 2)* 100
+			else:
+				percentRead = 100		
+		
+		if (totalPagesToRead >0):
+			totalPercentRead = round(float(totalPgRead) / totalPagesToRead, 2)* 100	
+		else:
+			totalPercentRead = 100
 	
 	except Course.DoesNotExist:
 		raise Http404('This course does not exist')
@@ -191,6 +219,7 @@ def course_detail(request, id):
 		'courseItems': courseItems,
 		'totalPgRead': totalPgRead,
 		'totalPercentRead': totalPercentRead,
+		'totalPagesToRead': totalPagesToRead,
 	})
 
 

@@ -4,8 +4,9 @@
 	<a href="{% url 'index' %}">Back</a>
 	<h2>{{ course.title|capfirst }} </h2>
 	
-			<span class="speed">Total Pages Read for this Course: {{totalPgRead}} pages </span>
-				<span class="speed">Total Percent Read: {{totalPercentRead}} % <progress value={{totalPercentReads}} max="100"></progress> </span>
+			<span class="speed">{{totalPagesToRead}} Pages Assigned </span>
+			<span class="speed">{{totalPgRead}} Total Pages Read </span>
+			<span class="speed">Total Percent Read: {{totalPercentRead}} % <progress value={{totalPercentRead}} max="100"></progress> </span>
 			<br>
 	
 	<ul>
