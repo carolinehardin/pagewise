@@ -112,6 +112,10 @@
 			<span class="speed">Minutes: {{ next7DaysTimeRemaining }}</span>		
 			<span class="speed">Hours: {{ next7DaysTimeRemaining|div:60|floatformat}}</span>	
 		
+		<h2>Due next 2 weeks</h2>	 
+			<span class="speed">Hours: {{ next2WeeksTimeRemaining|div:60|floatformat}}</span>	
+			<span class="speed">To keep up, this week you should do: {{ next2WeeksTimeRemaining|div:60|div:2|floatformat}} hours</span>
+		
 		<h2> To complete all unfinished readings</h2>
 			<span class="speed">Pages: {{ totalPgRemaining}}</span>	
 			<span class="speed">Minutes: {{ totalTimeRemaining }}</span>		

@@ -30,6 +30,7 @@ def index(request):
 	dueNext7Days = [] #what's due in next 7 days? good for planning week
 	next7DaysPgRemaining = 0
 	next7DaysTimeRemaining = 0
+	next2WeeksTimeRemaining = 0
 	
 	
 	now = datetime.now().date() 
@@ -40,6 +41,7 @@ def index(request):
 	
 	in7Days = now + timedelta(days=7) #we count today as part of the week
 	last7Days = now - timedelta(days=7)
+	in2Weeks = now + timedelta(days=14)
 	
 	for oneSession in studySessions:
 		#add one since if you read pages 1 & 2 it's 2 pages but 2-1 = 1
@@ -58,7 +60,6 @@ def index(request):
 		
 	for oneReading in items:
 		
-			
 		#calculate percent read
 		percentRead = 0
 		pagesRead = 0
@@ -101,10 +102,18 @@ def index(request):
 				dueTomorrow.append(oneReading)
 				tomorrowPgRemaining = tomorrowPgRemaining + pagesAssigned - pagesRead 
 				tomorrowTimeRemaining = tomorrowTimeRemaining + oneReading.timeRemaining
+			
+			#is it due in the next week?
 			if (oneReading.dueDate < in7Days):
 				dueNext7Days.append(oneReading)
 				next7DaysPgRemaining = next7DaysPgRemaining + pagesAssigned - pagesRead 
 				next7DaysTimeRemaining = next7DaysTimeRemaining + oneReading.timeRemaining
+				next2WeeksTimeRemaining = next2WeeksTimeRemaining + oneReading.timeRemaining
+				
+			#is it due in the next 2 weeks?
+			elif (oneReading.dueDate < in2Weeks):
+				next2WeeksTimeRemaining = next2WeeksTimeRemaining + oneReading.timeRemaining
+				
 		else: #else, it's due in the past
 			pastDue.append(oneReading)
 
@@ -127,6 +136,7 @@ def index(request):
 		'next7DaysPgRemaining' : next7DaysPgRemaining,
 		'next7DaysTimeRemaining': next7DaysTimeRemaining,
 		'last7DaysTimeSpent': last7DaysTimeSpent,
+		'next2WeeksTimeRemaining': next2WeeksTimeRemaining,
 
 	})
 
