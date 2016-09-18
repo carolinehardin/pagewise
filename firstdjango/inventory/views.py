@@ -15,13 +15,23 @@ def index(request):
 	items = Item.objects.all().order_by('-dueDate')
 	studySessions = StudySessions.objects.all()
 	course = Course.objects.all().order_by('-id')
+	
 	totalMinSpent = 0
 	totalPgRead = 0
+	
 	totalTimeRemaining = 0
 	totalPgRemaining = 0
+	
 	futureDue = [] #this will save every reading due soon
+	
 	pastDue = [] #stuff due today or earlier
+	
+	#what was done (or not done!) in the last week?
 	last7DaysTimeSpent = 0
+	last7DaysPgRead = 0
+	last7DaysPgTotal= 0
+	last7DaysTimeRemaining = 0
+	
 	
 	dueTomorrow = [] # stuff due tomorrow, used for calculating how many hours remaining work you have today
 	tomorrowPgRemaining = 0
@@ -40,7 +50,7 @@ def index(request):
 	tomorrow = now + timedelta(days=1)
 	
 	in7Days = now + timedelta(days=7) #we count today as part of the week
-	last7Days = now - timedelta(days=7)
+	last7Days = now + timedelta(days=-7)
 	in2Weeks = now + timedelta(days=14)
 	
 	for oneSession in studySessions:
@@ -48,9 +58,10 @@ def index(request):
 		totalPgRead = totalPgRead + oneSession.endPage-oneSession.startPage + 1  
 		totalMinSpent = totalMinSpent + oneSession.timeSpent
 		
-		#add up the time spent only during the last week
+		#add up the time and pages from last week
 		if oneSession.date > last7Days:
 			last7DaysTimeSpent = last7DaysTimeSpent + oneSession.timeSpent
+			last7DaysPgRead = last7DaysPgRead + oneSession.endPage-oneSession.startPage +1
 	
 	#avoid divide by zero errors	
 	if totalMinSpent > 0:					
@@ -93,11 +104,12 @@ def index(request):
 		
 		#keep track of what this reading adds to total time remainig
 		totalTimeRemaining = totalTimeRemaining + oneReading.timeRemaining
-	
+
 		#if it's due in the future
 		if oneReading.dueDate > now:
 			futureDue.append(oneReading)
-			# We'd like to know tomorrow due in particular
+			
+			# We'd like to know tomorrow due
 			if (oneReading.dueDate == tomorrow ):
 				dueTomorrow.append(oneReading)
 				tomorrowPgRemaining = tomorrowPgRemaining + pagesAssigned - pagesRead 
@@ -116,6 +128,12 @@ def index(request):
 				
 		else: #else, it's due in the past
 			pastDue.append(oneReading)
+			
+			#was it due in the last week?
+			if oneReading.dueDate > last7Days:
+				last7DaysPgTotal = last7DaysPgTotal + pagesAssigned 
+				last7DaysTimeRemaining = last7DaysTimeRemaining + oneReading.timeRemaining
+			
 
 	
 	return render(request, 'inventory/index.html', {
@@ -135,8 +153,11 @@ def index(request):
 		'in7Days': in7Days,
 		'next7DaysPgRemaining' : next7DaysPgRemaining,
 		'next7DaysTimeRemaining': next7DaysTimeRemaining,
-		'last7DaysTimeSpent': last7DaysTimeSpent,
 		'next2WeeksTimeRemaining': next2WeeksTimeRemaining,
+		'last7DaysPgRead':  last7DaysPgRead,		
+		'last7DaysTimeSpent': last7DaysTimeSpent,
+		'last7DaysTimeRemaining': last7DaysTimeRemaining,
+		'last7DaysPgTotal' : last7DaysPgTotal,
 
 	})
 
