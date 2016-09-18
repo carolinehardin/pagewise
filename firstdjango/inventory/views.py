@@ -36,10 +36,13 @@ def index(request):
 	dueTomorrow = [] # stuff due tomorrow, used for calculating how many hours remaining work you have today
 	tomorrowPgRemaining = 0
 	tomorrowTimeRemaining = 0
+	tomorrowPgTotal = 0
 	
 	dueNext7Days = [] #what's due in next 7 days? good for planning week
 	next7DaysPgRemaining = 0
 	next7DaysTimeRemaining = 0
+	
+	
 	next2WeeksTimeRemaining = 0
 	
 	
@@ -114,6 +117,7 @@ def index(request):
 				dueTomorrow.append(oneReading)
 				tomorrowPgRemaining = tomorrowPgRemaining + pagesAssigned - pagesRead 
 				tomorrowTimeRemaining = tomorrowTimeRemaining + oneReading.timeRemaining
+				tomorrowPgTotal = tomorrowPgTotal + pagesAssigned
 			
 			#is it due in the next week?
 			if (oneReading.dueDate < in7Days):
@@ -150,6 +154,7 @@ def index(request):
 		'tomorrow' : tomorrow,
 		'tomorrowPgRemaining' : tomorrowPgRemaining,
 		'tomorrowTimeRemaining' : tomorrowTimeRemaining,
+		'tomorrowPgTotal': tomorrowPgTotal,
 		'in7Days': in7Days,
 		'next7DaysPgRemaining' : next7DaysPgRemaining,
 		'next7DaysTimeRemaining': next7DaysTimeRemaining,
@@ -158,7 +163,7 @@ def index(request):
 		'last7DaysTimeSpent': last7DaysTimeSpent,
 		'last7DaysTimeRemaining': last7DaysTimeRemaining,
 		'last7DaysPgTotal' : last7DaysPgTotal,
-
+		
 	})
 
 def item_detail(request, id):
