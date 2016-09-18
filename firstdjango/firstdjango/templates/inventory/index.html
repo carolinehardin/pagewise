@@ -110,9 +110,11 @@
 
 				
 		<h2>Due Tomorrow, {{ tomorrow }}</h2>	 
-			<span class="speed">Pages: {{ tomorrowPgRemaining}}</span>	
-			<span class="speed">Minutes: {{ tomorrowTimeRemaining }}</span>		
-			<span class="speed">Hours: {{ tomorrowTimeRemaining|div:60|floatformat}}</span>	
+			<span class="speed">Percent completed:
+		<progress class="progressbar" value={{tomorrowPgTotal|sub:tomorrowPgRemaining|div:tomorrowPgTotal|mul:100|floatformat:2}} max="100"></progress></span>
+			<span class="speed">Pages to Read: {{ tomorrowPgRemaining}}</span>	
+			<span class="speed">Minutes to Spend: {{ tomorrowTimeRemaining }}</span>		
+			<span class="speed">Hours to Spend: {{ tomorrowTimeRemaining|div:60|floatformat}}</span>	
 		
 		<h2>Due next 7 days, {{ in7Days}}</h2>	 
 			<span class="speed">Pages: {{ next7DaysPgRemaining}}</span>	
