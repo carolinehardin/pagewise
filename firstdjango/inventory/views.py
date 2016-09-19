@@ -26,13 +26,16 @@ def index(request):
 	
 	pastDue = [] #stuff due today or earlier
 	
+	#what was done today?
+	todayTimeSpent = 0
+	todayPgRead = 0
+	
 	#what was done (or not done!) in the last week?
 	last7DaysTimeSpent = 0
 	last7DaysPgRead = 0
 	last7DaysPgTotal= 0
 	last7DaysTimeRemaining = 0
-	
-	
+		
 	dueTomorrow = [] # stuff due tomorrow, used for calculating how many hours remaining work you have today
 	tomorrowPgRemaining = 0
 	tomorrowTimeRemaining = 0
@@ -41,11 +44,9 @@ def index(request):
 	dueNext7Days = [] #what's due in next 7 days? good for planning week
 	next7DaysPgRemaining = 0
 	next7DaysTimeRemaining = 0
-	
-	
+		
 	next2WeeksTimeRemaining = 0
-	
-	
+		
 	now = datetime.now().date() 
 	
 	#we will consider tomorrow the next calendar day, not the next 24 hours. 
@@ -87,6 +88,9 @@ def index(request):
 		#for each matching study session, count up the number of pages read
 		for oneSession in justMatchedSessions:
 			pagesRead = pagesRead + oneSession.endPage-oneSession.startPage +1
+			if(oneSession.date == now):
+				todayTimeSpent = todayTimeSpent + oneSession.timeSpent
+				todayPgRead = todayPgRead + oneSession.endPage-oneSession.startPage +1
 			
 		#add pages left to total pages left
 		totalPgRemaining = totalPgRemaining + pagesAssigned - pagesRead 
@@ -163,6 +167,8 @@ def index(request):
 		'last7DaysTimeSpent': last7DaysTimeSpent,
 		'last7DaysTimeRemaining': last7DaysTimeRemaining,
 		'last7DaysPgTotal' : last7DaysPgTotal,
+		'todayTimeSpent': todayTimeSpent,
+		'todayPgRead':	todayPgRead,
 		
 	})
 
