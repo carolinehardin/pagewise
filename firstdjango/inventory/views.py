@@ -35,11 +35,13 @@ def index(request):
 	last7DaysPgRead = 0
 	last7DaysPgTotal= 0
 	last7DaysTimeRemaining = 0
+	last7DaysPercentDone = 0
 		
 	dueTomorrow = [] # stuff due tomorrow, used for calculating how many hours remaining work you have today
 	tomorrowPgRemaining = 0
 	tomorrowTimeRemaining = 0
 	tomorrowPgTotal = 0
+	tomorrowPercentDone = 0
 	
 	dueNext7Days = [] #what's due in next 7 days? good for planning week
 	next7DaysPgRemaining = 0
@@ -141,9 +143,18 @@ def index(request):
 			if oneReading.dueDate > last7Days:
 				last7DaysPgTotal = last7DaysPgTotal + pagesAssigned 
 				last7DaysTimeRemaining = last7DaysTimeRemaining + oneReading.timeRemaining
-			
-
-	
+		
+	#calculate Percentages Done	
+	if (last7DaysPgTotal > 0):
+		last7DaysPercentDone = float(last7DaysPgRead)/float(last7DaysPgTotal)
+	else:
+		last7DaysPercentDone = 100
+		
+	if (tomorrowPgTotal > 0):
+		tomorrowPercentDone = float(tomorrowPgTotal - tomorrowPgRemaining) / float(tomorrowPgTotal)
+	else:
+		tomorrowPercentDone = 100
+		
 	return render(request, 'inventory/index.html', {
 		'items': items,
 		'studySessions': studySessions,
@@ -159,6 +170,7 @@ def index(request):
 		'tomorrowPgRemaining' : tomorrowPgRemaining,
 		'tomorrowTimeRemaining' : tomorrowTimeRemaining,
 		'tomorrowPgTotal': tomorrowPgTotal,
+		'tomorrowPercentDone':tomorrowPercentDone,
 		'in7Days': in7Days,
 		'next7DaysPgRemaining' : next7DaysPgRemaining,
 		'next7DaysTimeRemaining': next7DaysTimeRemaining,
@@ -167,6 +179,7 @@ def index(request):
 		'last7DaysTimeSpent': last7DaysTimeSpent,
 		'last7DaysTimeRemaining': last7DaysTimeRemaining,
 		'last7DaysPgTotal' : last7DaysPgTotal,
+		'last7DaysPercentDone' :last7DaysPercentDone,
 		'todayTimeSpent': todayTimeSpent,
 		'todayPgRead':	todayPgRead,
 		
